@@ -37,4 +37,6 @@ router.post("/", (req, res) => {
     });
 });
 
+router.post("/products", (req, res) => {});
+
 module.exports = router;

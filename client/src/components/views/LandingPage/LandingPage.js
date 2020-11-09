@@ -1,16 +1,14 @@
-import React from "react";
-import { FaCode } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function LandingPage() {
-    return (
-        <>
-            <div className="app">
-                <FaCode style={{ fontSize: "4rem" }} />
-                <br />
-                <span style={{ fontSize: "2rem" }}>Let's Start Coding!</span>
-            </div>
-        </>
-    );
+    useEffect(() => {
+        axios.post("/api/products/products").then((res) => {
+            console.log(res);
+        });
+    });
+
+    return <div>asdasd</div>;
 }
 
 export default LandingPage;
