@@ -37,6 +37,20 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/products", (req, res) => {});
+router.post("/product", (req, res) => {
+    Product.find()
+        .populate("writer")
+        .exec((err, productInfo) => {
+            if (err)
+                return res.status(400).json({
+                    success: false,
+                    err,
+                });
+            return res.status(200).json({
+                productSuccess: true,
+                productInfo,
+            });
+        });
+});
 
 module.exports = router;
