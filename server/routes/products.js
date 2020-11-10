@@ -38,8 +38,13 @@ router.post("/", (req, res) => {
 });
 
 router.post("/product", (req, res) => {
+    const limit = req.body.limit ? parseInt(req.body.limit) : 20;
+    const skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
     Product.find()
         .populate("writer")
+        .skip(skip)
+        .limit(limit)
         .exec((err, productInfo) => {
             if (err)
                 return res.status(400).json({
@@ -49,6 +54,7 @@ router.post("/product", (req, res) => {
             return res.status(200).json({
                 productSuccess: true,
                 productInfo,
+                postSize: productInfo.length,
             });
         });
 });
