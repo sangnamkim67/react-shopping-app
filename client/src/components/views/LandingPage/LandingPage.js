@@ -58,6 +58,26 @@ function LandingPage() {
         );
     });
 
+    const handleCheckBox = (value) => {
+        const continents = value;
+        // if (value !== undefined) {
+        //     const checkedProducts = continents.map((continent) => {
+        //         return products.filter(
+        //             (product) => product.continent === continent
+        //         );
+        //     });
+        //     setProducts(...checkedProducts);
+        //     console.log(checkedProducts);
+        // }
+        const checkedProducts = continents.map((continent) => {
+            return products.filter(
+                (product) => product.continent === continent
+            );
+        });
+        setProducts(...checkedProducts);
+        console.log(checkedProducts);
+    };
+
     return (
         <div style={{ width: "75%", margin: "3rem auto" }}>
             <div style={{ textAlign: "center" }}>
@@ -67,13 +87,15 @@ function LandingPage() {
             </div>
             {/* Filter */}
             {/* CheckBox */}
-            <CheckBox />
+            <CheckBox handleCheck={handleCheckBox} />
+            <br />
             {/* RadioBox */}
 
             {/* Search */}
 
             {/* Cards */}
             <Row gutter={[16, 16]}>{renderCards}</Row>
+
             <br />
             <br />
             {postSize >= 8 && (
