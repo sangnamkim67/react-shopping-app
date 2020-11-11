@@ -3,23 +3,22 @@ import axios from "axios";
 import { Icon, Col, Row, Card, Button } from "antd";
 import ImageSlider from "../../utils/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
+import RadioBox from "./Sections/RadioBox";
 
 function LandingPage() {
     const { Meta } = Card;
     const [products, setProducts] = useState([]);
-    const [limits, setLimits] = useState(8);
-    const [skips, setSkips] = useState(0);
-    const [postSize, setPostsize] = useState(0);
+    const [skip, setSkip] = useState(8);
+    const [Limit, setLimit] = useState(8);
+    const [prodList, setProdList] = useState([]);
+    const [postSize, setPostSize] = useState(0);
 
-    const LoadProducts = (body) => {
-        axios.post("/api/products/product", body).then((res) => {
+    const LoadProducts = () => {
+        axios.post("/api/products/product").then((res) => {
             if (res.data.productSuccess) {
-                if (body.loadMore === true) {
-                    setProducts([...products, ...res.data.productInfo]);
-                } else {
-                    setProducts(res.data.productInfo);
-                }
-                setPostsize(res.data.postSize);
+                setProducts(res.data.productInfo);
+                setProdList(res.data.productInfo.slice(0, 8));
+                setPostSize(res.data.postSize);
             } else {
                 alert("상품을 가져오는데 실패했습니다.");
             }
@@ -27,25 +26,17 @@ function LandingPage() {
     };
 
     useEffect(() => {
-        let body = {
-            skip: skips,
-            limit: limits,
-        };
-        LoadProducts(body);
+        LoadProducts();
     }, []);
 
     const handleLoadMore = () => {
-        const newSkip = skips + limits;
-        let body = {
-            skip: newSkip,
-            limit: limits,
-            loadMore: true,
-        };
-        LoadProducts(body);
-        setSkips(newSkip);
+        const newSkip = skip + Limit;
+        setProdList([...prodList, ...products.slice(skip, newSkip)]);
+        setSkip(newSkip);
+        setPostSize(prodList.length);
     };
 
-    const renderCards = products.map((product, index) => {
+    const renderCards = prodList.map((product, index) => {
         return (
             <Col key={index} lg={6} md={16} xs={24}>
                 <Card cover={<ImageSlider images={product.images} />}>
@@ -53,6 +44,7 @@ function LandingPage() {
                         title={product.title}
                         description={product.description}
                     />
+                    <p>${product.price}</p>
                 </Card>
             </Col>
         );
@@ -60,22 +52,20 @@ function LandingPage() {
 
     const handleCheckBox = (value) => {
         const continents = value;
-        // if (value !== undefined) {
-        //     const checkedProducts = continents.map((continent) => {
-        //         return products.filter(
-        //             (product) => product.continent === continent
-        //         );
-        //     });
-        //     setProducts(...checkedProducts);
-        //     console.log(checkedProducts);
-        // }
-        const checkedProducts = continents.map((continent) => {
-            return products.filter(
-                (product) => product.continent === continent
-            );
-        });
-        setProducts(...checkedProducts);
-        console.log(checkedProducts);
+        if (continents.length === 0) {
+            setProdList(products.slice(0, 8));
+            setSkip(8);
+            setPostSize(products.length);
+        } else {
+            const selected = continents
+                .map((continent) => {
+                    return products.filter(
+                        (product) => product.continent === continent
+                    );
+                })
+                .flat();
+            setProdList(selected);
+        }
     };
 
     return (
@@ -86,10 +76,17 @@ function LandingPage() {
                 </h2>
             </div>
             {/* Filter */}
-            {/* CheckBox */}
-            <CheckBox handleCheck={handleCheckBox} />
+            <Row gutter={[16, 16]}>
+                {/* CheckBox */}
+                <Col lg={12} xs={24}>
+                    <CheckBox handleCheck={handleCheckBox} />
+                </Col>
+                {/* RadioBox */}
+                <Col lg={12} xs={24}>
+                    <RadioBox handleCheck={handleCheckBox} />
+                </Col>
+            </Row>
             <br />
-            {/* RadioBox */}
 
             {/* Search */}
 
@@ -98,7 +95,7 @@ function LandingPage() {
 
             <br />
             <br />
-            {postSize >= 8 && (
+            {products.length >= prodList.length && postSize > Limit && (
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <Button onClick={handleLoadMore}> Load More </Button>
                 </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { Checkbox, Collapse } from "antd";
 import { Continents } from "./Datas";
 
-const CheckBox = (props) => {
+const RadioBox = (props) => {
     const { Panel } = Collapse;
     const ContinentName = Continents.map((continent) => {
         return continent.value;
@@ -24,4 +24,4 @@ const CheckBox = (props) => {
     );
 };
 
-export default CheckBox;
+export default RadioBox;
