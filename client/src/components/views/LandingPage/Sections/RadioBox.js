@@ -1,24 +1,35 @@
-import React from "react";
-import { Checkbox, Collapse } from "antd";
-import { Continents } from "./Datas";
+import React, { useState } from "react";
+import { Radio, Collapse } from "antd";
+import { Prices } from "./Datas";
 
 const RadioBox = (props) => {
     const { Panel } = Collapse;
-    const ContinentName = Continents.map((continent) => {
-        return continent.value;
+    const [prices, setPrice] = useState();
+    const pricesName = Prices.map((price) => {
+        return price.name;
     });
 
-    const handleChange = (checkedValues) => {
-        props.handleCheck(checkedValues);
+    const handleChange = (e) => {
+        setPrice(e.target.value);
+        props.handleRadio(e.target.value);
     };
 
     return (
         <Collapse defaultActiveKey={["1"]}>
-            <Panel header="Continents" key="1">
-                <Checkbox.Group
-                    options={ContinentName}
+            <Panel header="Prices" key="1">
+                <Radio.Group
                     onChange={handleChange}
-                />
+                    option={pricesName}
+                    value={prices}
+                >
+                    {pricesName.map((price, index) => {
+                        return (
+                            <Radio key={index} value={index}>
+                                {price}
+                            </Radio>
+                        );
+                    })}
+                </Radio.Group>
             </Panel>
         </Collapse>
     );

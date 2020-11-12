@@ -4,14 +4,17 @@ import { Icon, Col, Row, Card, Button } from "antd";
 import ImageSlider from "../../utils/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
 import RadioBox from "./Sections/RadioBox";
+import { Prices } from "./Sections/Datas";
 
 function LandingPage() {
     const { Meta } = Card;
     const [products, setProducts] = useState([]);
     const [skip, setSkip] = useState(8);
-    const [Limit, setLimit] = useState(8);
+    const [Limit] = useState(8);
     const [prodList, setProdList] = useState([]);
     const [postSize, setPostSize] = useState(0);
+    const [continents, setContinents] = useState([]);
+    const [price, setPrice] = useState(Prices[0]);
 
     const LoadProducts = () => {
         axios.post("/api/products/product").then((res) => {
@@ -51,23 +54,77 @@ function LandingPage() {
     });
 
     const handleCheckBox = (value) => {
+        setContinents(value);
         const continents = value;
-        if (continents.length === 0) {
-            setProdList(products.slice(0, 8));
-            setSkip(8);
-            setPostSize(products.length);
+        if (price.key === 1) {
+            if (continents.length === 0) {
+                setProdList(products.slice(0, 8));
+                setSkip(8);
+                setPostSize(products.length);
+            } else {
+                const selected = continents
+                    .map((continent) => {
+                        return products.filter(
+                            (product) => product.continent === continent
+                        );
+                    })
+                    .flat();
+                setProdList(selected);
+            }
         } else {
-            const selected = continents
+            if (continents.length === 0) {
+                const selectedInAll = products.filter((product) => {
+                    return (
+                        product.price >= price.array[0] &&
+                        product.price < price.array[1]
+                    );
+                });
+                setProdList(selectedInAll);
+                setSkip(8);
+                setPostSize(products.length);
+            } else {
+                const selected = continents
+                    .map((continent) => {
+                        return products.filter(
+                            (product) => product.continent === continent
+                        );
+                    })
+                    .flat()
+                    .filter(
+                        (product) =>
+                            product.price >= price.array[0] &&
+                            product.price < price.array[1]
+                    );
+                setProdList(selected);
+            }
+        }
+    };
+    const handleRadioBox = (value) => {
+        const priceValue = Prices[value];
+        setPrice(Prices[value]);
+
+        const selectedInAll = products.filter((product) => {
+            return (
+                product.price >= priceValue.array[0] &&
+                product.price < priceValue.array[1]
+            );
+        });
+        let selectedInList = [];
+
+        if (continents.length === 0) {
+            selectedInList = selectedInAll;
+        } else {
+            selectedInList = continents
                 .map((continent) => {
-                    return products.filter(
+                    return selectedInAll.filter(
                         (product) => product.continent === continent
                     );
                 })
                 .flat();
-            setProdList(selected);
         }
-    };
 
+        setProdList(selectedInList);
+    };
     return (
         <div style={{ width: "75%", margin: "3rem auto" }}>
             <div style={{ textAlign: "center" }}>
@@ -83,7 +140,7 @@ function LandingPage() {
                 </Col>
                 {/* RadioBox */}
                 <Col lg={12} xs={24}>
-                    <RadioBox handleCheck={handleCheckBox} />
+                    <RadioBox handleRadio={handleRadioBox} />
                 </Col>
             </Row>
             <br />
