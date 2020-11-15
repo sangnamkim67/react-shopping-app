@@ -4,6 +4,7 @@ import { Icon, Col, Row, Card, Button } from "antd";
 import ImageSlider from "../../utils/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
 import RadioBox from "./Sections/RadioBox";
+import SearchFeature from "./Sections/SearchFeature";
 import { Prices } from "./Sections/Datas";
 
 function LandingPage() {
@@ -42,13 +43,18 @@ function LandingPage() {
     const renderCards = prodList.map((product, index) => {
         return (
             <Col key={index} lg={6} md={16} xs={24}>
-                <Card cover={<ImageSlider images={product.images} />}>
-                    <Meta
-                        title={product.title}
-                        description={product.description}
-                    />
-                    <p>${product.price}</p>
-                </Card>
+                <div>
+                    <Card
+                        hoverable
+                        cover={<ImageSlider images={product.images} />}
+                    >
+                        <Meta
+                            title={product.title}
+                            description={product.description}
+                        />
+                        <p>${product.price}</p>
+                    </Card>
+                </div>
             </Col>
         );
     });
@@ -125,6 +131,13 @@ function LandingPage() {
 
         setProdList(selectedInList);
     };
+    const handleSubmit = (value) => {
+        const searchProduct = products.filter((product) => {
+            return product.title.toLowerCase() === value.toLowerCase();
+        });
+        setProdList(searchProduct);
+    };
+
     return (
         <div style={{ width: "75%", margin: "3rem auto" }}>
             <div style={{ textAlign: "center" }}>
@@ -143,9 +156,17 @@ function LandingPage() {
                     <RadioBox handleRadio={handleRadioBox} />
                 </Col>
             </Row>
-            <br />
 
             {/* Search */}
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    margin: "1rem auto",
+                }}
+            >
+                <SearchFeature handleSubmit={handleSubmit} />
+            </div>
 
             {/* Cards */}
             <Row gutter={[16, 16]}>{renderCards}</Row>
