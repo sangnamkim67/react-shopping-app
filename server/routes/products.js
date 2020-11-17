@@ -18,7 +18,6 @@ const upload = multer({
 });
 router.post("/image", upload.single("file"), (req, res) => {
     // 가져온 이미지를 저장
-
     res.json({
         success: true,
         filePath: res.req.file.path,
@@ -26,7 +25,6 @@ router.post("/image", upload.single("file"), (req, res) => {
     });
 });
 router.post("/", (req, res) => {
-    // 가져온 이미지를 저장
     const product = new Product(req.body);
 
     product.save((err) => {
@@ -50,6 +48,21 @@ router.post("/product", (req, res) => {
                 productSuccess: true,
                 productInfo: productInfo,
                 postSize: productInfo.length,
+            });
+        });
+});
+
+router.get("/detail", (req, res) => {
+    let type = req.query.type;
+    let id = req.query.id;
+
+    Product.find({ _id: id })
+        .populate("writer")
+        .exec((err, product) => {
+            if (err) return res.status(400).send(err);
+            return res.status(200).send({
+                success: true,
+                product,
             });
         });
 });

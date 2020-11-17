@@ -6,6 +6,7 @@ import CheckBox from "./Sections/CheckBox";
 import RadioBox from "./Sections/RadioBox";
 import SearchFeature from "./Sections/SearchFeature";
 import { Prices } from "./Sections/Datas";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
     const { Meta } = Card;
@@ -44,16 +45,25 @@ function LandingPage() {
         return (
             <Col key={index} lg={6} md={16} xs={24}>
                 <div>
-                    <Card
-                        hoverable
-                        cover={<ImageSlider images={product.images} />}
+                    <Link
+                        to={{
+                            pathname: `/product/${product._id}`,
+                            state: {
+                                id: product._id,
+                            },
+                        }}
                     >
-                        <Meta
-                            title={product.title}
-                            description={product.description}
-                        />
-                        <p>${product.price}</p>
-                    </Card>
+                        <Card
+                            hoverable
+                            cover={<ImageSlider images={product.images} />}
+                        >
+                            <Meta
+                                title={product.title}
+                                description={product.description}
+                            />
+                            <p>${product.price}</p>
+                        </Card>
+                    </Link>
                 </div>
             </Col>
         );
