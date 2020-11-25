@@ -1,9 +1,14 @@
 import React from "react";
 import { Descriptions, Button } from "antd";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../../_actions/user_actions";
 
 const ProductInfo = (props) => {
+    const dispatch = useDispatch();
     const handleClick = () => {
-        alert("asdasd");
+        dispatch(addToCart(props.data._id)).then((response) => {
+            console.log(response);
+        });
     };
 
     return (
