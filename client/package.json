@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "http-proxy-middleware": "^1.0.6"
+    "http-proxy-middleware": "^1.0.6",
+    "webpack-node-externals": "^2.5.2"
   }
 }

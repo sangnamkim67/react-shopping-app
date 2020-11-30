@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "webpack-node-externals": "^2.5.2"
   }
 }

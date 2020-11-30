@@ -5,9 +5,12 @@ import { addToCart } from "../../../../_actions/user_actions";
 
 const ProductInfo = (props) => {
     const dispatch = useDispatch();
+
     const handleClick = () => {
         dispatch(addToCart(props.data._id)).then((response) => {
             console.log(response);
+            if (response.payload.error && !response.payload.isAuth)
+                alert("Login Please");
         });
     };
 

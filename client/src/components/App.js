@@ -9,6 +9,7 @@ import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer";
 import UploadProductPage from "./views/UploadProductPage/UploadProductPage";
 import DetailProductPage from "./views/DetailProductPage/DetailProductPage";
+import CartPage from "./views/CartPage/CartPage";
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -37,6 +38,11 @@ function App() {
                         exact
                         path="/product/upload"
                         component={Auth(UploadProductPage, true)}
+                    />
+                    <Route
+                        exact
+                        path="/product/cartpage"
+                        component={Auth(CartPage, true)}
                     />
                     <Route
                         exact
