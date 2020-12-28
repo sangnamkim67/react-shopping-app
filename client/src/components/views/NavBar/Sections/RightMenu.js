@@ -35,6 +35,7 @@ function RightMenu(props) {
             <Menu mode={props.mode}>
                 <Menu.Item key="cartpage">
                     <Badge count={5}>
+                        {console.log(props)}
                         <a
                             href="/product/cartpage"
                             style={{ marginRight: -22, color: "#667777" }}

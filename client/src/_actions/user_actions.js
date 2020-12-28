@@ -6,6 +6,7 @@ import {
     LOGOUT_USER,
     ADD_TO_CART,
     GET_CART_ITEMS,
+    REMOVE_CART_ITEMS,
 } from "./types";
 import { USER_SERVER } from "../components/Config.js";
 
@@ -89,6 +90,27 @@ export function getCartItems(cartItems, userCart) {
 
     return {
         type: GET_CART_ITEMS,
+        payload: request,
+    };
+}
+export function removeCartItem(productId) {
+    const request = axios
+        .get(`/api/users/removefromcart?id=${productId}`)
+        .then((res) => {
+            // productInfo , cart 정보를 조합해서 CartDetail을 만든다.
+            res.data.cart.forEach((item) => {
+                res.data.productInfo.forEach((product, i) => {
+                    if (product.id === item.id) {
+                        res.data.productInfo[i].quantity = item.quantity;
+                    }
+                });
+            });
+
+            return res.data;
+        });
+
+    return {
+        type: REMOVE_CART_ITEMS,
         payload: request,
     };
 }

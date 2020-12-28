@@ -21,7 +21,9 @@ const UserCardBlock = (props) => {
                     <td>{item.quantity} EA</td>
                     <td>$ {item.price}</td>
                     <td>
-                        <button>Remove</button>
+                        <button onClick={() => props.removeFromCart(item._id)}>
+                            Remove
+                        </button>
                     </td>
                 </tr>
             );
