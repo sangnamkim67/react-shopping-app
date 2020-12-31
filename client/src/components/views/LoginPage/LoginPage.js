@@ -54,7 +54,7 @@ function LoginPage(props) {
                                 if (rememberMe === true) {
                                     window.localStorage.setItem(
                                         "rememberMe",
-                                        values.id
+                                        values.email
                                     );
                                 } else {
                                     localStorage.removeItem("rememberMe");

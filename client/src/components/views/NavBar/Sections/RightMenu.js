@@ -34,7 +34,7 @@ function RightMenu(props) {
         return (
             <Menu mode={props.mode}>
                 <Menu.Item key="cartpage">
-                    <Badge count={5}>
+                    <Badge count={user.userData && user.userData.cart.length}>
                         {console.log(props)}
                         <a
                             href="/product/cartpage"
