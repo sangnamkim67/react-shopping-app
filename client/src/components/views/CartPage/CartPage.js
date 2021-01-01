@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getCartItems, removeCartItem } from "../../../_actions/user_actions";
+import {
+    getCartItems,
+    onSuccessBuy,
+    removeCartItem,
+} from "../../../_actions/user_actions";
 import UserCartBlock from "./Sections/UserCardBlock";
-import { Empty, Button, Icon } from "antd";
+import { Empty, Button, Icon, Result } from "antd";
 
 const CartPage = (props) => {
     const dispatch = useDispatch();
     const [totalPrice, setTotal] = useState(0);
     const [isEmpty, setEmpty] = useState(false);
-
+    const [isSuccess, setSuccess] = useState(false);
     useEffect(() => {
         let cartList = [];
         let price = 0;
@@ -55,9 +59,23 @@ const CartPage = (props) => {
             },
             function (res) {
                 var msg;
+
                 if (res.success) {
                     msg = "결제가 완료되었습니다.\n";
                     msg += "결제 금액 : " + res.paid_amount;
+                    dispatch(
+                        onSuccessBuy({
+                            paymentData: {
+                                imp_uid: res.imp_uid,
+                                merchant_uid: res.merchant_uid,
+                            },
+                            cartDetail: props.user.cartDetail,
+                        })
+                    ).then((res) => {
+                        console.log(res);
+                        setEmpty(false);
+                        setSuccess(true);
+                    });
                 } else {
                     msg = "결제에 실패하였습니다.\n";
                     msg += "에러내용 : " + res.error_msg;
@@ -82,8 +100,11 @@ const CartPage = (props) => {
                         결제하기
                     </Button>
                 </div>
+            ) : isSuccess ? (
+                <Result status="success" title="Successfully Purchased Items" />
             ) : (
                 <div>
+                    <br />
                     <Empty description={false} />
                     <h2 style={{ textAlign: "center" }}>
                         No Items In the CART
