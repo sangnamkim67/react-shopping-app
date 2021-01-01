@@ -17,7 +17,7 @@ React를 사용하여 만든 쇼핑몰 웹페이지로 , Windows환경의 chrome
 - Main Page 내에 필터
 - 원하는 상품 검색
 - Cart Page
-
+- 상품 결제
 <br/>
 
 ### 3. 실행 화면
@@ -40,8 +40,8 @@ React를 사용하여 만든 쇼핑몰 웹페이지로 , Windows환경의 chrome
 ![](https://images.velog.io/images/nami0515/post/61284d8c-cdce-4758-bb20-57584ae16051/detail%20page.jpg)상세 정보를 통해 등록된 상품의 가격과 상품에 대한 상세 설명을 볼 수 있고, 장바구니에 추가 가능
 
 - 카트 페이지
-![](https://images.velog.io/images/nami0515/post/ae86be7d-da6f-42cc-a7c9-acea62097708/cart%20page.jpg)장바구니에서 제거할 수 있고, 총 가격과 상품에 대한 설명을 출력
-
+![](https://images.velog.io/images/nami0515/post/ae86be7d-da6f-42cc-a7c9-acea62097708/cart%20page.jpg)장바구니에서 제거할 수 있고, 총 가격과 상품에 대한 설명을 출력, 결제까지 가능하다.
+![](https://images.velog.io/images/nami0515/post/679110d8-87dd-49ed-8472-38a235e4343b/%EA%B2%B0%EC%A0%9C.jpg)
 ### 4. 개발 환경
 <hr/>
 
