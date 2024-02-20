@@ -1,5 +1,5 @@
 # React Shopping App
-React를 사용하여 만든 여행지 쇼핑몰 입니다.
+React 강의를 보고 React를 사용하여 만든 여행지 쇼핑몰
 <br/>
 
 
